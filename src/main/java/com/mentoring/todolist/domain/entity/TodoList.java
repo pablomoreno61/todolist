@@ -5,15 +5,19 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import lombok.Getter;
 
+@Getter
 public class TodoList {
-    private UUID id;
-    private String name;
-    private ZonedDateTime createdAt;
+    private final UUID id;
+    private final String name;
+    private final ZonedDateTime createdAt;
     private List<Task> tasks;
 
     public TodoList(String name) {
         this.id = UUID.randomUUID();
+
+        // Constraint size, format
         this.name = name;
         this.createdAt = ZonedDateTime.now();
     }
@@ -32,6 +36,7 @@ public class TodoList {
         }
     }
 
+    @Getter
     public static class Task {
         public enum Priority {
             LOW, HIGH
