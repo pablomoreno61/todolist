@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
@@ -19,16 +20,20 @@ import lombok.ToString.Exclude;
 import org.hibernate.Hibernate;
 
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
 @Table(name="todo_lists")
 public class TodoListModel {
     @Id
     private UUID id;
+
     private String name;
+
     private ZonedDateTime createdAt;
+
     @OneToMany
     @Exclude
     private List<TaskModel> tasks;

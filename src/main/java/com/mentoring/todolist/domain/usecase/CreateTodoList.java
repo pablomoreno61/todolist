@@ -10,12 +10,12 @@ public class CreateTodoList {
         this.repository = repository;
     }
 
-    public CreateTodoListResponse execute(CreateTodoListRequest request) {
-        TodoList todoList = new TodoList(request.getName());
+    public CreateTodoListOutput execute(CreateTodoListInput input) {
+        TodoList todoList = new TodoList(input.getName());
 
         repository.save(todoList);
 
-        return new CreateTodoListResponse(
+        return new CreateTodoListOutput(
             todoList.getId(),
             todoList.getName(),
             todoList.getCreatedAt()

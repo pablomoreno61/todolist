@@ -2,6 +2,7 @@ package com.mentoring.todolist.domain.entity;
 
 import com.mentoring.todolist.domain.entity.TodoList.Task.Priority;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -12,20 +13,20 @@ public class TodoList {
     private final UUID id;
     private final String name;
     private final ZonedDateTime createdAt;
-    private List<Task> tasks;
+    private final List<Task> tasks = new ArrayList<>();
 
     public TodoList(String name) {
-        this.id = UUID.randomUUID();
+        id = UUID.randomUUID();
 
         // Constraint size, format
         this.name = name;
-        this.createdAt = ZonedDateTime.now();
+        createdAt = ZonedDateTime.now();
     }
 
     public void addTask(String name, Priority priority) {
         Task task = new Task(name, priority);
 
-        this.tasks.add(task);
+        tasks.add(task);
     }
 
     public void completeTask(UUID id) {

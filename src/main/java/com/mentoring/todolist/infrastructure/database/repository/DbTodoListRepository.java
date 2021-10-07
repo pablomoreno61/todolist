@@ -5,11 +5,11 @@ import com.mentoring.todolist.domain.repository.TodoListRepository;
 import com.mentoring.todolist.infrastructure.database.entity.TaskModel;
 import com.mentoring.todolist.infrastructure.database.entity.TodoListModel;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 // TODO Create custom mapper or reuse an existing one (https://www.baeldung.com/java-performance-mapping-frameworks)
+@Repository
 public class DbTodoListRepository implements TodoListRepository {
     private final JpaTodoListRepository jpaTodoListRepository;
 

@@ -1,6 +1,9 @@
 package com.mentoring.todolist.domain.usecase;
 
-public class CreateTodoListRequest {
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
+public class CreateTodoListInput {
     private String name;
 
     public String getName() {
