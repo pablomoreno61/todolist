@@ -1,15 +1,18 @@
 package com.mentoring.todolist.infrastructure.database.controller;
 
+import com.mentoring.todolist.domain.exception.InvalidTodoListFormatException;
 import com.mentoring.todolist.domain.usecase.CreateTodoList;
 import com.mentoring.todolist.domain.usecase.CreateTodoListInput;
 import com.mentoring.todolist.domain.usecase.CreateTodoListOutput;
 import com.mentoring.todolist.infrastructure.database.dto.CreateTodoListRequest;
 import com.mentoring.todolist.infrastructure.database.dto.CreateTodoListResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/todolist")
@@ -34,7 +37,16 @@ public class CreateTodoListController
             todoListRequestData.getName()
         );
 
-        CreateTodoListOutput createTodoListOutput = createTodoList.execute(todoListRequest);
+        CreateTodoListOutput createTodoListOutput;
+
+        try {
+            createTodoListOutput = createTodoList.execute(todoListRequest);
+        } catch (InvalidTodoListFormatException e) {
+            throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                e.getMessage()
+            );
+        }
 
         return CreateTodoListResponse.fromCreateTodoListOutput(createTodoListOutput);
     }

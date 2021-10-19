@@ -1,6 +1,7 @@
 package com.mentoring.todolist.domain.entity;
 
 import com.mentoring.todolist.domain.entity.TodoList.Task.Priority;
+import com.mentoring.todolist.domain.exception.InvalidTodoListFormatException;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,10 @@ public class TodoList {
         id = UUID.randomUUID();
 
         // Constraint size, format
+        if (name == null || name.isEmpty()) {
+            throw InvalidTodoListFormatException.withName(name);
+        }
+
         this.name = name;
         createdAt = ZonedDateTime.now();
     }

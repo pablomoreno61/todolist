@@ -6,15 +6,17 @@ import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @Builder
 @Getter
+@NoArgsConstructor
 public class CreateTodoListResponse
 {
-    private final UUID id;
-    private final String name;
-    private final ZonedDateTime createdAt;
+    private UUID id;
+    private String name;
+    private ZonedDateTime createdAt;
 
     public static CreateTodoListResponse fromCreateTodoListOutput(
         CreateTodoListOutput createTodoListOutput
