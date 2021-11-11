@@ -1,4 +1,4 @@
-package com.mentoring.todolist.infrastructure.database.config;
+package com.mentoring.todolist.infrastructure.config;
 
 import com.mentoring.todolist.domain.repository.TodoListRepository;
 import com.mentoring.todolist.domain.usecase.CreateTodoList;

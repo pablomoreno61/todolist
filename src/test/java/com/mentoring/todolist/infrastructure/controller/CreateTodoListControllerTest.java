@@ -1,11 +1,11 @@
-package com.mentoring.todolist.controller;
+package com.mentoring.todolist.infrastructure.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import com.mentoring.todolist.infrastructure.database.dto.CreateTodoListRequest;
-import com.mentoring.todolist.infrastructure.database.dto.CreateTodoListResponse;
+import com.mentoring.todolist.infrastructure.dto.CreateTodoListRequest;
+import com.mentoring.todolist.infrastructure.dto.CreateTodoListResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +20,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.web.client.HttpClientErrorException.BadRequest;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)

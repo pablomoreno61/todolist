@@ -1,11 +1,11 @@
-package com.mentoring.todolist.infrastructure.database.controller;
+package com.mentoring.todolist.infrastructure.controller;
 
 import com.mentoring.todolist.domain.exception.InvalidTodoListFormatException;
 import com.mentoring.todolist.domain.usecase.CreateTodoList;
 import com.mentoring.todolist.domain.usecase.CreateTodoListInput;
 import com.mentoring.todolist.domain.usecase.CreateTodoListOutput;
-import com.mentoring.todolist.infrastructure.database.dto.CreateTodoListRequest;
-import com.mentoring.todolist.infrastructure.database.dto.CreateTodoListResponse;
+import com.mentoring.todolist.infrastructure.dto.CreateTodoListRequest;
+import com.mentoring.todolist.infrastructure.dto.CreateTodoListResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,4 +1,4 @@
-package com.mentoring.todolist.infrastructure.database.dto;
+package com.mentoring.todolist.infrastructure.dto;
 
 import com.mentoring.todolist.domain.usecase.CreateTodoListOutput;
 import java.time.ZonedDateTime;
