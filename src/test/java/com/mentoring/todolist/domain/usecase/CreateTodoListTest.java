@@ -42,7 +42,22 @@ public class CreateTodoListTest {
     }
 
     @Test
-    public void executeTest() {
+    public void shouldSaveTodoList() {
+        when(uuidProvider.uuid()).thenReturn(TODOLIST_UUID);
+
+        CreateTodoListInput todoListRequest = new CreateTodoListInput(TODOLIST_SAMPLE_NAME);
+        createTodoListUseCase.execute(todoListRequest);
+
+        verify(repository).save(todoListCaptor.capture());
+        TodoList todoListCaptorValue = todoListCaptor.getValue();
+
+        assertEquals(TODOLIST_SAMPLE_NAME, todoListCaptorValue.getName());
+        assertEquals(TODOLIST_UUID, todoListCaptorValue.getId());
+        assertNotNull(todoListCaptorValue.getCreatedAt());
+    }
+
+    @Test
+    public void shouldReturnList() {
         when(uuidProvider.uuid()).thenReturn(TODOLIST_UUID);
 
         CreateTodoListInput todoListRequest = new CreateTodoListInput(TODOLIST_SAMPLE_NAME);
@@ -51,12 +66,9 @@ public class CreateTodoListTest {
         verify(repository).save(todoListCaptor.capture());
         TodoList todoListCaptorValue = todoListCaptor.getValue();
 
-        assertEquals(TODOLIST_SAMPLE_NAME, todoListCaptorValue.getName());
-        assertEquals(todoListCaptorValue.getId(), todoListResponse.getId());
-        assertEquals(todoListCaptorValue.getCreatedAt(), todoListResponse.getCreatedAt());
-
         assertEquals(TODOLIST_UUID, todoListResponse.getId());
-        assertNotNull(todoListResponse.getCreatedAt());
         assertEquals(TODOLIST_SAMPLE_NAME, todoListResponse.getName());
+        assertNotNull(todoListResponse.getCreatedAt());
+        assertEquals(todoListCaptorValue.getCreatedAt(), todoListResponse.getCreatedAt());
     }
 }
