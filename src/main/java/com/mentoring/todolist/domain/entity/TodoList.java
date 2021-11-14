@@ -2,11 +2,13 @@ package com.mentoring.todolist.domain.entity;
 
 import com.mentoring.todolist.domain.entity.TodoList.Task.Priority;
 import com.mentoring.todolist.domain.exception.InvalidTodoListFormatException;
+
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
 import lombok.Getter;
 
 @Getter
@@ -16,14 +18,14 @@ public class TodoList {
     private final ZonedDateTime createdAt;
     private final List<Task> tasks = new ArrayList<>();
 
-    public TodoList(String name) {
-        id = UUID.randomUUID();
+    public TodoList(UUID id, String name) {
 
         // Constraint size, format
         if (name == null || name.isEmpty()) {
             throw InvalidTodoListFormatException.withName(name);
         }
 
+        this.id = id;
         this.name = name;
         createdAt = ZonedDateTime.now();
     }
