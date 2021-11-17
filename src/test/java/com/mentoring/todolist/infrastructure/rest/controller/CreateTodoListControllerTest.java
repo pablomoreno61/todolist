@@ -1,4 +1,4 @@
-package com.mentoring.todolist.infrastructure.controller;
+package com.mentoring.todolist.infrastructure.rest.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;

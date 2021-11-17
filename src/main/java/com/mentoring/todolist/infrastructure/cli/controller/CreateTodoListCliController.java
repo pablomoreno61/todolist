@@ -1,4 +1,4 @@
-package com.mentoring.todolist.infrastructure.controller;
+package com.mentoring.todolist.infrastructure.cli.controller;
 
 import com.mentoring.todolist.domain.exception.InvalidTodoListFormatException;
 import com.mentoring.todolist.domain.usecase.CreateTodoList;
@@ -8,30 +8,29 @@ import com.mentoring.todolist.infrastructure.dto.CreateTodoListRequest;
 import com.mentoring.todolist.infrastructure.dto.CreateTodoListResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
-@RestController
-@RequestMapping("/todolist")
-public class CreateTodoListController
+@Service
+public class CreateTodoListCliController
 {
     private final CreateTodoList createTodoList;
 
     @Autowired
-    public CreateTodoListController(
+    public CreateTodoListCliController(
         CreateTodoList createTodoList
     ) {
         this.createTodoList = createTodoList;
     }
 
-    // TODO Catch exception with an ExceptionHandler
-    // TODO Catch size/format name exception
-    @PostMapping("/add")
+    @ExceptionHandler({InvalidTodoListFormatException.class})
+    public ResponseEntity<String> handleUnauthorizedException(Exception e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+
     public CreateTodoListResponse add(
-        @RequestBody CreateTodoListRequest todoListRequestData
+        CreateTodoListRequest todoListRequestData
     ) {
         CreateTodoListInput todoListRequest = new CreateTodoListInput(
             todoListRequestData.getName()
@@ -39,14 +38,7 @@ public class CreateTodoListController
 
         CreateTodoListOutput createTodoListOutput;
 
-        try {
-            createTodoListOutput = createTodoList.execute(todoListRequest);
-        } catch (InvalidTodoListFormatException e) {
-            throw new ResponseStatusException(
-                HttpStatus.BAD_REQUEST,
-                e.getMessage()
-            );
-        }
+        createTodoListOutput = createTodoList.execute(todoListRequest);
 
         return CreateTodoListResponse.fromCreateTodoListOutput(createTodoListOutput);
     }
