@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.mentoring.todolist.TodolistCliRunner;
+import com.mentoring.todolist.domain.exception.InvalidTodoListFormatException;
 import com.mentoring.todolist.infrastructure.dto.CreateTodoListResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -51,8 +52,22 @@ public class CreateTodoListCliControllerTest
         );
     }
 
+
     @Test
-    public void createTodoList() throws JsonProcessingException, ArrayIndexOutOfBoundsException {
+    public void cannotCreateTodoList_WhenNameIsTooLarge()
+        throws JsonProcessingException, InvalidTodoListFormatException {
+        String todolistName = "caracolasdasiuhdashiudihuasdhiuahisudahuisdhiuasdhiuashiudahiusdhuiasihudahuisdiuhashuidahiusdhuiashiudaihusdhuiasdhuiahiusdhiuasdhiuashiudihuasdhuiasdhiuahiusdiuhashiudahiusd";
+        String[] args = new String[]{"--action=create", String.format("--params=name=%s", todolistName)};
+        // ApplicationArguments appArguments = new DefaultApplicationArguments(args);
+
+        todolistCliRunner.run(args);
+
+        assertEquals("Todo list name length must be between 1 and 50\nnull\n", outputStreamCaptor.toString());
+    }
+
+    @Test
+    public void createTodoList()
+        throws JsonProcessingException, ArrayIndexOutOfBoundsException, InvalidTodoListFormatException {
         String todolistName = "TODOLIST_NAME";
         String[] args = new String[]{"--action=create", String.format("--params=name=%s", todolistName)};
         // ApplicationArguments appArguments = new DefaultApplicationArguments(args);

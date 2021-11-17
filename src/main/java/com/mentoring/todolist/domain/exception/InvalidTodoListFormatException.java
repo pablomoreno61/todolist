@@ -1,7 +1,7 @@
 package com.mentoring.todolist.domain.exception;
 
 public class InvalidTodoListFormatException extends
-    RuntimeException {
+    Exception {
     private final String name;
 
     public InvalidTodoListFormatException(String message, String name)
@@ -11,7 +11,7 @@ public class InvalidTodoListFormatException extends
     }
 
     public static InvalidTodoListFormatException withName(String name) {
-        return new InvalidTodoListFormatException("Todo list name cannot be empty", name);
+        return new InvalidTodoListFormatException("Todo list name length must be between 1 and 50", name);
     }
 
     @Override

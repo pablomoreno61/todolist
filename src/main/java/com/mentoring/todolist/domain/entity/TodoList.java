@@ -16,11 +16,11 @@ public class TodoList {
     private final ZonedDateTime createdAt;
     private final List<Task> tasks = new ArrayList<>();
 
-    public TodoList(String name) {
+    public TodoList(String name) throws InvalidTodoListFormatException {
         id = UUID.randomUUID();
 
         // Constraint size, format
-        if (name == null || name.isEmpty()) {
+        if (name == null || name.isEmpty() || name.length() > 50) {
             throw InvalidTodoListFormatException.withName(name);
         }
 

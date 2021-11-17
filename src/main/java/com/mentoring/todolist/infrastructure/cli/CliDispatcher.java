@@ -3,6 +3,7 @@ package com.mentoring.todolist.infrastructure.cli;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.mentoring.todolist.domain.exception.InvalidTodoListFormatException;
 import com.mentoring.todolist.infrastructure.cli.exception.UnknownCliActionException;
 import com.mentoring.todolist.infrastructure.cli.controller.CreateTodoListCliController;
 import com.mentoring.todolist.infrastructure.dto.CreateTodoListRequest;
@@ -22,7 +23,8 @@ public class CliDispatcher {
         this.createTodoListCliController = createTodoListCliController;
     }
 
-    public String manage(String action, String[] params) throws JsonProcessingException, ArrayIndexOutOfBoundsException {
+    public String manage(String action, String[] params)
+        throws JsonProcessingException, ArrayIndexOutOfBoundsException, InvalidTodoListFormatException {
         String managedResponse;
 
         Map<String, String> map = Arrays.stream(params)

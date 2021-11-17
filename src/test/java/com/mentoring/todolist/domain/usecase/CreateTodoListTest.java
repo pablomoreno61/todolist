@@ -7,6 +7,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.openMocks;
 
 import com.mentoring.todolist.domain.entity.TodoList;
+import com.mentoring.todolist.domain.exception.InvalidTodoListFormatException;
 import com.mentoring.todolist.domain.repository.TodoListRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,7 +34,7 @@ public class CreateTodoListTest {
     }
 
     @Test
-    public void executeTest() {
+    public void executeTest() throws InvalidTodoListFormatException {
         CreateTodoListInput todoListRequest = new CreateTodoListInput(TODOLIST_SAMPLE_NAME);
         CreateTodoListOutput todoListResponse = createTodoListUseCase.execute(todoListRequest);
 

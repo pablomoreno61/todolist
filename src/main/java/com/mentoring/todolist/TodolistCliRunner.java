@@ -1,6 +1,7 @@
 package com.mentoring.todolist;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.mentoring.todolist.domain.exception.InvalidTodoListFormatException;
 import com.mentoring.todolist.infrastructure.cli.CliDispatcher;
 import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,8 @@ public class TodolistCliRunner implements CommandLineRunner { // ApplicationRunn
     }
 
     @Override
-    public void run(String[] args) throws JsonProcessingException, ArrayIndexOutOfBoundsException {
+    public void run(String[] args)
+        throws JsonProcessingException, ArrayIndexOutOfBoundsException, InvalidTodoListFormatException {
         String managedResponse = cliDispatcher.manage(
             args[0].split("=")[1],
             args[1].replace("--params=", "").split(",")
