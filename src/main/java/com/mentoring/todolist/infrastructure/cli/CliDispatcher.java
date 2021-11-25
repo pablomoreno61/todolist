@@ -1,16 +1,15 @@
 package com.mentoring.todolist.infrastructure.cli;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.mentoring.todolist.domain.exception.InvalidTodoListFormatException;
+import com.mentoring.todolist.infrastructure.cli.adapter.input.CreateTodoListCommand;
 import com.mentoring.todolist.infrastructure.cli.exception.UnknownCliActionException;
 import com.mentoring.todolist.infrastructure.cli.controller.CreateTodoListCliController;
-import com.mentoring.todolist.infrastructure.dto.CreateTodoListRequest;
 import com.mentoring.todolist.infrastructure.dto.CreateTodoListResponse;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,24 +22,46 @@ public class CliDispatcher {
         this.createTodoListCliController = createTodoListCliController;
     }
 
-    public String manage(String action, String[] params)
-        throws JsonProcessingException, ArrayIndexOutOfBoundsException, InvalidTodoListFormatException {
-        String managedResponse;
+    private String readFromInputStream(InputStream inputStream)
+        throws IOException {
+        StringBuilder resultStringBuilder = new StringBuilder();
+        try (BufferedReader br
+            = new BufferedReader(new InputStreamReader(inputStream))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                resultStringBuilder.append(line).append("\n");
+            }
+        }
+        return resultStringBuilder.toString();
+    }
 
-        Map<String, String> map = Arrays.stream(params)
-            .map(v -> v.split("="))
-            .collect(Collectors.toMap(a -> a[0], a -> a[1]));
+    public String manage(String action, InputStream inputStream)
+        throws IOException, ArrayIndexOutOfBoundsException, UnknownCliActionException {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        String data = readFromInputStream(inputStream);
+
+        String managedResponse = null;
 
         switch(action) {
             case "create":
-                CreateTodoListRequest createTodoListRequest = new CreateTodoListRequest(map.get("name"));
-                CreateTodoListResponse createTodoListResponse = createTodoListCliController.add(createTodoListRequest);
+                CreateTodoListCommand createTodoListCommand = objectMapper.readValue(data, CreateTodoListCommand.class);
 
-                ObjectMapper objectMapper = new ObjectMapper();
-                objectMapper.registerModule(new JavaTimeModule());
+                CreateTodoListResponse createTodoListResponse = createTodoListCliController.add(createTodoListCommand);
+
                 managedResponse = objectMapper.writeValueAsString(createTodoListResponse);
 
                 break;
+            case "update":
+                // TODO
+                break;
+            case "delete":
+                // TODO
+            case "addTask":
+                // TODO
+                break;
+
             default:
                 throw UnknownCliActionException.withInvalidAction(action, actions);
         }

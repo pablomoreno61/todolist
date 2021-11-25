@@ -1,22 +1,24 @@
 package com.mentoring.todolist;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.mentoring.todolist.domain.exception.InvalidTodoListFormatException;
 import com.mentoring.todolist.infrastructure.cli.CliDispatcher;
-import java.util.Arrays;
+import com.mentoring.todolist.infrastructure.cli.exception.UnknownCliActionException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnNotWebApplication;
 import org.springframework.stereotype.Component;
 
-@Component
 @ConditionalOnNotWebApplication
-public class TodolistCliRunner implements CommandLineRunner { // ApplicationRunner
+@Component
+public class TodolistCliRunner implements CommandLineRunner {
     @Autowired
     private CliDispatcher cliDispatcher;
+
+    private String action = "";
+    private String body = "";
 
     public static void main(String[] args) {
         SpringApplication.run(TodolistCliRunner.class, args);
@@ -24,20 +26,41 @@ public class TodolistCliRunner implements CommandLineRunner { // ApplicationRunn
 
     @Override
     public void run(String[] args)
-        throws JsonProcessingException, ArrayIndexOutOfBoundsException, InvalidTodoListFormatException {
-        String managedResponse = cliDispatcher.manage(
-            args[0].split("=")[1],
-            args[1].replace("--params=", "").split(",")
-        );
+        throws ArrayIndexOutOfBoundsException {
 
-        System.out.println(managedResponse);
-        /*
-        String managedResponse = cliDispatcher.manage(
-            args.getOptionValues("action").get(0),
-            args.getOptionValues("params").get(0).split(",")
-        );
+        InputStream inputStream = null;
 
-        System.out.println(managedResponse);
-         */
+        try {
+            for (String arg : args) {
+                // TODO This split could map to an object String action, String body
+                String[] field = arg.split("=");
+                if (field[0].equals("--action")) {
+                    action = field[1];
+                } else if(field[0].equals("--body")) {
+                    body = field[1];
+                    inputStream = getClass().getClassLoader().getResourceAsStream(body);
+                }
+            }
+        } catch (ArrayIndexOutOfBoundsException ignored) { }
+
+        if (action.equals("") || body.equals("")) {
+            output("Not enough arguments provided: action and body are mandatory.");
+            return;
+        }
+
+        String managedResponse;
+
+        try {
+            managedResponse = cliDispatcher.manage(action, inputStream);
+        } catch (UnknownCliActionException | IOException e) {
+            output(e.getMessage());
+            return;
+        }
+
+        output(managedResponse);
+    }
+
+    private void output(String s) {
+        System.out.println(s);
     }
 }

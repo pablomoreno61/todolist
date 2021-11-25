@@ -1,6 +1,6 @@
 package com.mentoring.todolist.infrastructure.cli.exception;
 
-public class UnknownCliActionException extends RuntimeException {
+public class UnknownCliActionException extends Exception {
     private UnknownCliActionException(String message) {
         super(message);
     }

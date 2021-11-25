@@ -3,16 +3,14 @@ package com.mentoring.todolist.infrastructure.cli.controller;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.mentoring.todolist.TodolistCliRunner;
-import com.mentoring.todolist.domain.exception.InvalidTodoListFormatException;
 import com.mentoring.todolist.infrastructure.dto.CreateTodoListResponse;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +20,8 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(webEnvironment = WebEnvironment.NONE, args = {"--action=create", "--params=name=TODOLIST_NAME"})
+
+@SpringBootTest(webEnvironment = WebEnvironment.NONE)
 public class CreateTodoListCliControllerTest
 {
     private final PrintStream standardOut = System.out;
@@ -43,22 +42,16 @@ public class CreateTodoListCliControllerTest
 
     @Test
     public void cannotCreateTodoList_whenNameIsEmpty() throws ArrayIndexOutOfBoundsException {
-        String[] args = new String[]{"--action=create", "--params=name="};
-        // ApplicationArguments appArguments = new DefaultApplicationArguments(args);
+        String[] args = new String[]{"--action=create", "--body=json/create-todolist-empty-name.json"};
 
-        ArrayIndexOutOfBoundsException thrown = Assertions.assertThrows(
-            ArrayIndexOutOfBoundsException.class, () ->
-                todolistCliRunner.run(args)
-        );
+        todolistCliRunner.run(args);
+
+        assertEquals("Todo list name length must be between 1 and 50\nnull\n", outputStreamCaptor.toString());
     }
 
-
     @Test
-    public void cannotCreateTodoList_WhenNameIsTooLarge()
-        throws JsonProcessingException, InvalidTodoListFormatException {
-        String todolistName = "caracolasdasiuhdashiudihuasdhiuahisudahuisdhiuasdhiuashiudahiusdhuiasihudahuisdiuhashuidahiusdhuiashiudaihusdhuiasdhuiahiusdhiuasdhiuashiudihuasdhuiasdhiuahiusdiuhashiudahiusd";
-        String[] args = new String[]{"--action=create", String.format("--params=name=%s", todolistName)};
-        // ApplicationArguments appArguments = new DefaultApplicationArguments(args);
+    public void cannotCreateTodoList_WhenNameIsTooLarge() {
+        String[] args = new String[]{"--action=create", "--body=json/create-todolist-too-long-name.json"};
 
         todolistCliRunner.run(args);
 
@@ -67,10 +60,8 @@ public class CreateTodoListCliControllerTest
 
     @Test
     public void createTodoList()
-        throws JsonProcessingException, ArrayIndexOutOfBoundsException, InvalidTodoListFormatException {
-        String todolistName = "TODOLIST_NAME";
-        String[] args = new String[]{"--action=create", String.format("--params=name=%s", todolistName)};
-        // ApplicationArguments appArguments = new DefaultApplicationArguments(args);
+        throws IOException, ArrayIndexOutOfBoundsException {
+        String[] args = new String[]{"--action=create", "--body=json/create-todolist.json"};
 
         todolistCliRunner.run(args);
 
@@ -81,7 +72,7 @@ public class CreateTodoListCliControllerTest
             CreateTodoListResponse.class
         );
 
-        assertEquals(todolistName, createTodoListResponse.getName());
+        assertEquals("TODOLIST_NAME", createTodoListResponse.getName());
         assertNotNull(createTodoListResponse.getCreatedAt());
         assertNotNull(createTodoListResponse.getId());
     }

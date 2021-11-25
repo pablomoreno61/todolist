@@ -10,4 +10,4 @@ Create todo list
 
 ## CLI endpoints
 
-`mvn spring-boot:run -Dspring-boot.run.arguments="--action=create --params=name=Tech debt"`
+`mvn spring-boot:run -Dspring-boot.run.arguments="--action=create --body=json/create-todolist.json"`

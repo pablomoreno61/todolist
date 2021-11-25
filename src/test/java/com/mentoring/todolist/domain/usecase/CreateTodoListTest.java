@@ -2,7 +2,6 @@ package com.mentoring.todolist.domain.usecase;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.openMocks;
 
@@ -15,7 +14,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 
-// TODO Create todo list use case Unit test
 public class CreateTodoListTest {
 
     public static final String TODOLIST_SAMPLE_NAME = "TODOLIST_SAMPLE";

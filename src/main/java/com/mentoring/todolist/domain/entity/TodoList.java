@@ -19,7 +19,6 @@ public class TodoList {
     public TodoList(String name) throws InvalidTodoListFormatException {
         id = UUID.randomUUID();
 
-        // Constraint size, format
         if (name == null || name.isEmpty() || name.length() > 50) {
             throw InvalidTodoListFormatException.withName(name);
         }

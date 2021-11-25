@@ -4,11 +4,10 @@ import com.mentoring.todolist.domain.exception.InvalidTodoListFormatException;
 import com.mentoring.todolist.domain.usecase.CreateTodoList;
 import com.mentoring.todolist.domain.usecase.CreateTodoListInput;
 import com.mentoring.todolist.domain.usecase.CreateTodoListOutput;
-import com.mentoring.todolist.infrastructure.dto.CreateTodoListRequest;
+import com.mentoring.todolist.infrastructure.cli.adapter.input.CreateTodoListCommand;
 import com.mentoring.todolist.infrastructure.dto.CreateTodoListResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @Service
 public class CreateTodoListCliController
@@ -23,22 +22,25 @@ public class CreateTodoListCliController
     }
 
     public CreateTodoListResponse add(
-        CreateTodoListRequest todoListRequestData
+        CreateTodoListCommand todoListRequestData
     ) {
+        CreateTodoListResponse createTodoListResponse = null;
+
         try {
-            CreateTodoListInput todoListRequest = new CreateTodoListInput(
+            CreateTodoListInput todoListInput = new CreateTodoListInput(
                 todoListRequestData.getName()
             );
 
             CreateTodoListOutput createTodoListOutput;
 
-            createTodoListOutput = createTodoList.execute(todoListRequest);
+            createTodoListOutput = createTodoList.execute(todoListInput);
 
-            return CreateTodoListResponse.fromCreateTodoListOutput(createTodoListOutput);
+            createTodoListResponse = CreateTodoListResponse.fromCreateTodoListOutput(
+                createTodoListOutput);
         } catch (InvalidTodoListFormatException e) {
             System.out.println(e.getMessage());
         }
 
-        return null;
+        return createTodoListResponse;
     }
 }
