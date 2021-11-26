@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import com.mentoring.todolist.infrastructure.dto.CreateTodoListRequest;
 import com.mentoring.todolist.infrastructure.dto.CreateTodoListResponse;
+import com.mentoring.todolist.infrastructure.rest.dto.CreateTodoListRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

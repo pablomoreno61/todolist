@@ -2,12 +2,13 @@ package com.mentoring.todolist.domain.entity;
 
 import com.mentoring.todolist.domain.entity.TodoList.Task.Priority;
 import com.mentoring.todolist.domain.exception.InvalidTodoListFormatException;
+import lombok.Getter;
+
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import lombok.Getter;
 
 @Getter
 public class TodoList {
@@ -16,19 +17,18 @@ public class TodoList {
     private final ZonedDateTime createdAt;
     private final List<Task> tasks = new ArrayList<>();
 
-    public TodoList(String name) throws InvalidTodoListFormatException {
-        id = UUID.randomUUID();
-
+    public TodoList(UUID id, String name) throws InvalidTodoListFormatException {
         if (name == null || name.isEmpty() || name.length() > 50) {
             throw InvalidTodoListFormatException.withName(name);
         }
 
+        this.id = id;
         this.name = name;
         createdAt = ZonedDateTime.now();
     }
 
-    public void addTask(String name, Priority priority) {
-        Task task = new Task(name, priority);
+    public void addTask(UUID id, String name, Priority priority) {
+        Task task = new Task(id, name, priority);
 
         tasks.add(task);
     }
@@ -47,8 +47,8 @@ public class TodoList {
             LOW, HIGH
         }
 
-        public Task(String name, Priority priority) {
-            this.id = UUID.randomUUID();
+        public Task(UUID id, String name, Priority priority) {
+            this.id = id;
             this.name = name;
             this.priority = priority;
         }

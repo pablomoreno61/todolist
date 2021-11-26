@@ -2,7 +2,7 @@ package com.mentoring.todolist.infrastructure.cli;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.mentoring.todolist.infrastructure.cli.adapter.input.CreateTodoListCommand;
+import com.mentoring.todolist.infrastructure.cli.dto.input.CreateTodoListCommand;
 import com.mentoring.todolist.infrastructure.cli.exception.UnknownCliActionException;
 import com.mentoring.todolist.infrastructure.cli.controller.CreateTodoListCliController;
 import com.mentoring.todolist.infrastructure.dto.CreateTodoListResponse;

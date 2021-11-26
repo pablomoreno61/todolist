@@ -4,8 +4,8 @@ import com.mentoring.todolist.domain.exception.InvalidTodoListFormatException;
 import com.mentoring.todolist.domain.usecase.CreateTodoList;
 import com.mentoring.todolist.domain.usecase.CreateTodoListInput;
 import com.mentoring.todolist.domain.usecase.CreateTodoListOutput;
-import com.mentoring.todolist.infrastructure.dto.CreateTodoListRequest;
 import com.mentoring.todolist.infrastructure.dto.CreateTodoListResponse;
+import com.mentoring.todolist.infrastructure.rest.dto.CreateTodoListRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +31,9 @@ public class CreateTodoListController
     @ExceptionHandler
     public ResponseEntity<String> handleInvalidTodoListFormatException(
         InvalidTodoListFormatException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+            "{\"error\": e.getMessage()}"
+        );
     }
 
     @PostMapping("/add")

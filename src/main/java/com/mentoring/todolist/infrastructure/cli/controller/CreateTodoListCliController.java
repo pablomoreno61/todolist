@@ -4,7 +4,7 @@ import com.mentoring.todolist.domain.exception.InvalidTodoListFormatException;
 import com.mentoring.todolist.domain.usecase.CreateTodoList;
 import com.mentoring.todolist.domain.usecase.CreateTodoListInput;
 import com.mentoring.todolist.domain.usecase.CreateTodoListOutput;
-import com.mentoring.todolist.infrastructure.cli.adapter.input.CreateTodoListCommand;
+import com.mentoring.todolist.infrastructure.cli.dto.input.CreateTodoListCommand;
 import com.mentoring.todolist.infrastructure.dto.CreateTodoListResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

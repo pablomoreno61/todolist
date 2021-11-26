@@ -1,4 +1,4 @@
-package com.mentoring.todolist.infrastructure.cli.adapter.input;
+package com.mentoring.todolist.infrastructure.cli.dto.input;
 
 import lombok.Getter;
 

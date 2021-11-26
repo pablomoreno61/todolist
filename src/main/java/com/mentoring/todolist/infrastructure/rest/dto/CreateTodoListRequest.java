@@ -1,4 +1,4 @@
-package com.mentoring.todolist.infrastructure.dto;
+package com.mentoring.todolist.infrastructure.rest.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
