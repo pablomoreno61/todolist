@@ -32,7 +32,7 @@ public class CreateTodoListController
     public ResponseEntity<String> handleInvalidTodoListFormatException(
         InvalidTodoListFormatException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-            "{\"error\": e.getMessage()}"
+            String.format("{\"error\": %s}", e.getMessage())
         );
     }
 

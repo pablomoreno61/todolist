@@ -47,10 +47,10 @@ public class CreateTodoListControllerTest
         headers.set("Content-Type", "application/json");
 
         HttpEntity<Object> request = new HttpEntity<>(createTodoListRequest, headers);
-        ResponseEntity<CreateTodoListResponse> result = restTemplate.postForEntity(
+        ResponseEntity<String> result = restTemplate.postForEntity(
             "/todolist/add",
             request,
-            CreateTodoListResponse.class
+            String.class
         );
 
         assertThat(result.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
