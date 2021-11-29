@@ -2,6 +2,7 @@ package com.mentoring.todolist.domain.usecase;
 
 import com.mentoring.todolist.domain.UUIDProvider;
 import com.mentoring.todolist.domain.entity.TodoList;
+import com.mentoring.todolist.domain.exception.InvalidTodoListFormatException;
 import com.mentoring.todolist.domain.repository.TodoListRepository;
 
 public class CreateTodoList {
@@ -16,7 +17,8 @@ public class CreateTodoList {
         this.repository = repository;
     }
 
-    public CreateTodoListOutput execute(CreateTodoListInput input) {
+    public CreateTodoListOutput execute(CreateTodoListInput input)
+        throws InvalidTodoListFormatException {
         TodoList todoList = new TodoList(uuidProvider.uuid(), input.getName());
 
         repository.save(todoList);

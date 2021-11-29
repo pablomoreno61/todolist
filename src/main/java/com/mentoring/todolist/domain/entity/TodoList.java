@@ -17,10 +17,8 @@ public class TodoList {
     private final ZonedDateTime createdAt;
     private final List<Task> tasks = new ArrayList<>();
 
-    public TodoList(UUID id, String name) {
-
-        // Constraint size, format
-        if (name == null || name.isEmpty()) {
+    public TodoList(UUID id, String name) throws InvalidTodoListFormatException {
+        if (name == null || name.isEmpty() || name.length() > 50) {
             throw InvalidTodoListFormatException.withName(name);
         }
 

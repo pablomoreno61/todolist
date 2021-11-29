@@ -2,13 +2,13 @@ package com.mentoring.todolist.domain.usecase;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
 
 import com.mentoring.todolist.domain.UUIDProvider;
 import com.mentoring.todolist.domain.entity.TodoList;
+import com.mentoring.todolist.domain.exception.InvalidTodoListFormatException;
 import com.mentoring.todolist.domain.repository.TodoListRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,7 +42,7 @@ public class CreateTodoListTest {
     }
 
     @Test
-    public void shouldSaveTodoList() {
+    public void shouldSaveTodoList() throws InvalidTodoListFormatException {
         when(uuidProvider.uuid()).thenReturn(TODOLIST_UUID);
 
         CreateTodoListInput todoListRequest = new CreateTodoListInput(TODOLIST_SAMPLE_NAME);
@@ -57,7 +57,7 @@ public class CreateTodoListTest {
     }
 
     @Test
-    public void shouldReturnList() {
+    public void shouldReturnList() throws InvalidTodoListFormatException {
         when(uuidProvider.uuid()).thenReturn(TODOLIST_UUID);
 
         CreateTodoListInput todoListRequest = new CreateTodoListInput(TODOLIST_SAMPLE_NAME);

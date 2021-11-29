@@ -1,11 +1,11 @@
-package com.mentoring.todolist.infrastructure.controller;
+package com.mentoring.todolist.infrastructure.rest.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import com.mentoring.todolist.infrastructure.dto.CreateTodoListRequest;
 import com.mentoring.todolist.infrastructure.dto.CreateTodoListResponse;
+import com.mentoring.todolist.infrastructure.rest.dto.CreateTodoListRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -47,10 +47,10 @@ public class CreateTodoListControllerTest
         headers.set("Content-Type", "application/json");
 
         HttpEntity<Object> request = new HttpEntity<>(createTodoListRequest, headers);
-        ResponseEntity<CreateTodoListResponse> result = restTemplate.postForEntity(
+        ResponseEntity<String> result = restTemplate.postForEntity(
             "/todolist/add",
             request,
-            CreateTodoListResponse.class
+            String.class
         );
 
         assertThat(result.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
